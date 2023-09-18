@@ -14,6 +14,8 @@ import useEmpleados from "./hooks/useEmpleados";
 import useClientes from "./hooks/useClientes";
 import Etiquetas from "./pages/Etiquetas";
 import useEtiquetas from "./hooks/useEtiquetas";
+import useProyectos from "./hooks/useProyectos";
+import ProyectoDetalle from "./pages/ProyectoDetalle";
 
 function App() {
   const { setToken, setUser, token } = useContext(AuthContext);
@@ -21,6 +23,9 @@ function App() {
   const { empleados, setEmpleados } = useEmpleados();
   const { clientes, setClientes } = useClientes();
   const { etiquetas, setEtiquetas } = useEtiquetas();
+  const { proyectos, setProyectos } = useProyectos();
+
+  const [idProyecto, setIdProyecto] = useState();
 
   return (
     <>
@@ -56,7 +61,29 @@ function App() {
               />
             }
           />
-          <Route path="/proyectos" element={<Proyectos />} />
+          <Route
+            path="/proyectos"
+            element={
+              <Proyectos
+                proyectos={proyectos}
+                setProyectos={setProyectos}
+                nivel={nivel}
+                idProyecto={idProyecto}
+                setIdProyecto={setIdProyecto}
+              />
+            }
+          />
+
+          <Route
+            path="/proyectoDetalle"
+            element={
+              <ProyectoDetalle
+                proyectos={proyectos}
+                nivel={nivel}
+                idProyecto={idProyecto}
+              />
+            }
+          />
         </Routes>
       </div>
     </>

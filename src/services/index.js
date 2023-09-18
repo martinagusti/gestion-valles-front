@@ -16,6 +16,12 @@ import {
   deleteEtiqueta,
 } from "./etiquetasService";
 
+import {
+  getProyectos,
+  getProyectosById,
+  getProyectosByIdProyecto,
+} from "./proyectosService";
+
 const isBearerTokenRequired = (url) => {
   const parsedUrl = new URL(url);
   const publicRoutes = ["/users/login", "/users"];
@@ -74,4 +80,7 @@ export {
   getEtiquetas,
   createEtiqueta,
   deleteEtiqueta,
+  getProyectos,
+  getProyectosById,
+  getProyectosByIdProyecto,
 };

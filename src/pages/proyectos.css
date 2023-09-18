@@ -1,0 +1,32 @@
+.proyectos-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+.contenedor-proyectos {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.proyectos-box {
+  background-color: black;
+  color: rgb(79, 166, 237);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.proyectos-box label {
+  color: white;
+}
