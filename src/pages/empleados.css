@@ -63,6 +63,14 @@
   color: #009879;
 }
 
+.box-table-content {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-left: 60px;
+  overflow: auto;
+}
+
 .empleados-btn-editar {
   width: 25px;
   height: 25px;

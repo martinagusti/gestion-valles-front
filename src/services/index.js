@@ -8,6 +8,14 @@ import {
   deleteEmpleado,
 } from "./empleadosService";
 
+import { createCliente, deleteCliente, editCliente } from "./clientesService";
+
+import {
+  getEtiquetas,
+  createEtiqueta,
+  deleteEtiqueta,
+} from "./etiquetasService";
+
 const isBearerTokenRequired = (url) => {
   const parsedUrl = new URL(url);
   const publicRoutes = ["/users/login", "/users"];
@@ -54,4 +62,16 @@ axios.interceptors.response.use(
   }
 );
 
-export { login, createEmpleado, getEmpleados, editEmpleado, deleteEmpleado };
+export {
+  login,
+  createEmpleado,
+  getEmpleados,
+  editEmpleado,
+  deleteEmpleado,
+  createCliente,
+  deleteCliente,
+  editCliente,
+  getEtiquetas,
+  createEtiqueta,
+  deleteEtiqueta,
+};

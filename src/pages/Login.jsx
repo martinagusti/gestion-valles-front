@@ -23,8 +23,6 @@ function Login() {
     try {
       const response = await login(dataUser.email, dataUser.password);
 
-      console.log(response);
-
       if (response.data[0].accesToken) {
         localStorage.setItem("gestionUser", JSON.stringify(response.data[1]));
         localStorage.setItem(

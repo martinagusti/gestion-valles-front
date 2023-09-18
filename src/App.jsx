@@ -11,11 +11,16 @@ import Clientes from "./pages/Clientes";
 import Proyectos from "./pages/Proyectos";
 import useNivel from "./hooks/useNivel";
 import useEmpleados from "./hooks/useEmpleados";
+import useClientes from "./hooks/useClientes";
+import Etiquetas from "./pages/Etiquetas";
+import useEtiquetas from "./hooks/useEtiquetas";
 
 function App() {
   const { setToken, setUser, token } = useContext(AuthContext);
   const { nivel, loading, error } = useNivel();
   const { empleados, setEmpleados } = useEmpleados();
+  const { clientes, setClientes } = useClientes();
+  const { etiquetas, setEtiquetas } = useEtiquetas();
 
   return (
     <>
@@ -31,7 +36,26 @@ function App() {
               <Empleados empleados={empleados} setEmpleados={setEmpleados} />
             }
           />
-          <Route path="/clientes" element={<Clientes />} />
+          <Route
+            path="/clientes"
+            element={
+              <Clientes
+                clientes={clientes}
+                setClientes={setClientes}
+                nivel={nivel}
+              />
+            }
+          />
+          <Route
+            path="/etiquetas"
+            element={
+              <Etiquetas
+                etiquetas={etiquetas}
+                setEtiquetas={setEtiquetas}
+                nivel={nivel}
+              />
+            }
+          />
           <Route path="/proyectos" element={<Proyectos />} />
         </Routes>
       </div>

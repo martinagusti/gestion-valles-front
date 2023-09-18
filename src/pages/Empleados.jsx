@@ -344,42 +344,43 @@ function Empleados({ empleados, setEmpleados }) {
           </div>
         </div>
       )}
+      <div className="box-table-content">
+        <table className="content-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Email</th>
+              <th>Nivel</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
 
-      <table className="content-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellidos</th>
-            <th>Email</th>
-            <th>Nivel</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
+          <tbody>
+            {empleados.map((element, index) => {
+              return (
+                <tr key={index}>
+                  <td>{element.nombre}</td>
+                  <td>{element.apellido}</td>
+                  <td>{element.email}</td>
+                  <td>{element.nivel}</td>
 
-        <tbody>
-          {empleados.map((element, index) => {
-            return (
-              <tr key={index}>
-                <td>{element.nombre}</td>
-                <td>{element.apellido}</td>
-                <td>{element.email}</td>
-                <td>{element.nivel}</td>
-
-                <td>
-                  <button
-                    onClick={() => edit(element)}
-                    className="empleados-btn-editar"
-                  ></button>
-                  <button
-                    onClick={() => deleteEmpleadoFunction(element)}
-                    className="empleados-btn-eliminar"
-                  ></button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td>
+                    <button
+                      onClick={() => edit(element)}
+                      className="empleados-btn-editar"
+                    ></button>
+                    <button
+                      onClick={() => deleteEmpleadoFunction(element)}
+                      className="empleados-btn-eliminar"
+                    ></button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

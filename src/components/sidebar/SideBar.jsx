@@ -44,6 +44,15 @@ function SideBar({ nivel }) {
       </div>
 
       <div
+        className="etiquetas tooltip"
+        onClick={() => {
+          navigateTo("/etiquetas");
+        }}
+      >
+        <span className="tooltip-box">Etiquetas</span>
+      </div>
+
+      <div
         className="proyectos tooltip"
         onClick={() => {
           navigateTo("/proyectos");
