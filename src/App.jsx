@@ -16,6 +16,7 @@ import Etiquetas from "./pages/Etiquetas";
 import useEtiquetas from "./hooks/useEtiquetas";
 import useProyectos from "./hooks/useProyectos";
 import ProyectoDetalle from "./pages/ProyectoDetalle";
+import { getProyectosByIdProyecto } from "./services";
 
 function App() {
   const { setToken, setUser, token } = useContext(AuthContext);
@@ -26,6 +27,7 @@ function App() {
   const { proyectos, setProyectos } = useProyectos();
 
   const [idProyecto, setIdProyecto] = useState();
+  const [empleadosAsignados, setEmpleadosAsignados] = useState();
 
   return (
     <>
@@ -70,6 +72,10 @@ function App() {
                 nivel={nivel}
                 idProyecto={idProyecto}
                 setIdProyecto={setIdProyecto}
+                clientes={clientes}
+                etiquetas={etiquetas}
+                empleadosAsignados={empleadosAsignados}
+                setEmpleadosAsignados={setEmpleadosAsignados}
               />
             }
           />
@@ -81,6 +87,9 @@ function App() {
                 proyectos={proyectos}
                 nivel={nivel}
                 idProyecto={idProyecto}
+                empleadosAsignados={empleadosAsignados}
+                setEmpleadosAsignados={setEmpleadosAsignados}
+                empleados={empleados}
               />
             }
           />

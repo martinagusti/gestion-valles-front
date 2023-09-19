@@ -23,3 +23,38 @@ export const getProyectosByIdProyecto = async (id) => {
 
   return proyectos.data;
 };
+
+export const createProyecto = async (
+  cliente,
+  nombre,
+  comentarios,
+  fecha_inicio,
+  fecha_entrega,
+  etiqueta
+) => {
+  const proyecto = await axios.post(
+    `${import.meta.env.VITE_BACKEND_URL}/proyectos/create`,
+    {
+      id_cliente: cliente,
+      nombre: nombre,
+      comentarios: comentarios,
+      fecha_inicio: fecha_inicio,
+      fecha_entrega: fecha_entrega,
+      id_etiqueta: etiqueta,
+    }
+  );
+
+  return proyecto.data;
+};
+
+export const createEmpleadoAsignado = async (id_proyecto, id_empleado) => {
+  const proyecto = await axios.post(
+    `${import.meta.env.VITE_BACKEND_URL}/proyectos/insert`,
+    {
+      id_proyecto,
+      id_empleado,
+    }
+  );
+
+  return proyecto.data;
+};

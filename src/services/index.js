@@ -20,6 +20,7 @@ import {
   getProyectos,
   getProyectosById,
   getProyectosByIdProyecto,
+  createProyecto,
 } from "./proyectosService";
 
 const isBearerTokenRequired = (url) => {
@@ -83,4 +84,5 @@ export {
   getProyectos,
   getProyectosById,
   getProyectosByIdProyecto,
+  createProyecto,
 };
