@@ -21,7 +21,12 @@ import {
   getProyectosById,
   getProyectosByIdProyecto,
   createProyecto,
+  deleteEmpleadoAsignado,
+  deleteProyecto,
+  editProyecto,
 } from "./proyectosService";
+
+import { getIncidencias } from "./incidenciasService";
 
 const isBearerTokenRequired = (url) => {
   const parsedUrl = new URL(url);
@@ -85,4 +90,8 @@ export {
   getProyectosById,
   getProyectosByIdProyecto,
   createProyecto,
+  deleteEmpleadoAsignado,
+  deleteProyecto,
+  editProyecto,
+  getIncidencias,
 };

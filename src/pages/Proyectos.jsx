@@ -6,7 +6,13 @@ import { useNavigate } from "react-router-dom";
 import "./proyectos.css";
 
 import { AuthContext } from "../context/AuthContext";
-import { createProyecto, getProyectosByIdProyecto } from "../services";
+import {
+  createProyecto,
+  getEtiquetas,
+  getProyectos,
+  getProyectosById,
+  getProyectosByIdProyecto,
+} from "../services";
 
 function Proyectos({
   proyectos,
@@ -17,15 +23,69 @@ function Proyectos({
   clientes,
   etiquetas,
   setEmpleadosAsignados,
+  empleados,
 }) {
   const { setToken, setUser, token } = useContext(AuthContext);
   const [errorText, setErrorText] = useState();
   const [viewInsertProyecto, setViewInsertProyecto] = useState(false);
 
+  const [desde, setDesde] = useState();
+  const [hasta, setHasta] = useState();
+
   const navigateTo = useNavigate();
 
-  console.log(proyectos);
-  console.log(etiquetas);
+  proyectos.sort((a, b) => {
+    return (
+      new Date(a.fecha_entrega).getTime() - new Date(b.fecha_entrega).getTime()
+    );
+  });
+
+  const getProyectosByIdFunction = async (event) => {
+    if (event.target.value !== "") {
+      const data = await getProyectosById(event.target.value);
+      console.log(data);
+      setProyectos(data);
+    } else {
+      const data = await getProyectos();
+      setProyectos(data);
+    }
+  };
+
+  const filterEtiquetas = async (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+
+    if (e.target.value == "") {
+      console.log("entre1");
+      const data = await getProyectos();
+      setProyectos(data);
+    } else {
+      console.log("entre2");
+      const data = await getProyectos();
+      const filtered = data.filter((element) => {
+        return element.etiqueta_nombre === e.target.value;
+      });
+      console.log(filtered);
+      setProyectos(filtered);
+    }
+  };
+
+  const filterClientes = async (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+
+    if (e.target.value == "") {
+      const data = await getProyectos();
+      setProyectos(data);
+    } else {
+      const data = await getProyectos();
+      const filtered = data.filter((element) => {
+        return element.cliente_nombre === e.target.value;
+      });
+      console.log(filtered);
+      setProyectos(filtered);
+    }
+  };
 
   const {
     register,
@@ -56,6 +116,8 @@ function Proyectos({
         etiqueta
       );
 
+      console.log(created);
+
       let etiqueta_nombre = etiquetas.filter((element) => {
         return element.id == etiqueta;
       });
@@ -77,7 +139,36 @@ function Proyectos({
     }
   };
 
-  console.log(etiquetas);
+  const filterByDate = async (e) => {
+    e.preventDefault();
+
+    try {
+      const data = await getProyectos();
+      setProyectos(
+        data.filter((element) => {
+          const fechaInicial = new Date(desde);
+          const fechaFinal = new Date(hasta);
+
+          const dateElement = new Date(element.fecha_entrega);
+          return (
+            dateElement.getTime() > fechaInicial.getTime() - 86401 &&
+            dateElement.getTime() < fechaFinal.getTime() + 86400
+          );
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      setErrorText(error.response.data.error);
+    }
+  };
+
+  const onChangeDesde = (e) => {
+    setDesde(e.target.value);
+  };
+
+  const onChangeHasta = (e) => {
+    setHasta(e.target.value);
+  };
 
   return (
     <div className="proyectos-container">
@@ -87,8 +178,83 @@ function Proyectos({
         </button>
       )}
 
+      {nivel !== "empleado" && (
+        <div className="filtros-proyecto">
+          <form
+            onSubmit={(event) => {
+              console.log(event);
+            }}
+          >
+            <input
+              type="date"
+              id="fecha_desde"
+              name="fecha_desde"
+              onChange={(e) => onChangeDesde(e)}
+            ></input>
+            <input
+              type="date"
+              id="fecha_hasta"
+              name="fecha_hasta"
+              onChange={(e) => onChangeHasta(e)}
+            ></input>
+            <button onClick={(event) => filterByDate(event)}>
+              Busqueda por fecha
+            </button>
+            <label>Cliente</label>
+            <select
+              name="cliente"
+              id="cliente"
+              onChange={(event) => filterClientes(event)}
+            >
+              <option value={""}>TODOS</option>
+              {clientes.map((element, index) => {
+                return (
+                  <option key={index} value={element.nombre}>
+                    {element.nombre}
+                  </option>
+                );
+              })}
+            </select>
+            <label>Empleado</label>
+            <select
+              name="empleados"
+              id="empleados"
+              onChange={(event) => getProyectosByIdFunction(event)}
+            >
+              <option value={""}>TODOS</option>
+              {empleados.map((element, index) => {
+                return (
+                  <option key={index} value={element.id}>
+                    {element.nombre}
+                  </option>
+                );
+              })}
+            </select>
+
+            <label>Etiqueta</label>
+            <select
+              name="etiquetas"
+              id="etiquetas"
+              onChange={(event) => filterEtiquetas(event)}
+            >
+              <option value={""}>TODAS</option>
+              {etiquetas.map((element, index) => {
+                return (
+                  <option key={index} value={element.nombre}>
+                    {element.nombre}
+                  </option>
+                );
+              })}
+            </select>
+          </form>
+        </div>
+      )}
+
+      <h1>{`${proyectos.length} Proyectos encontrados`}</h1>
+
       <div className="contenedor-proyectos">
         {proyectos.map((element, index) => {
+          const date = new Date(element.fecha_entrega);
           return (
             <div className="proyectos-box" key={index}>
               <div
@@ -106,6 +272,10 @@ function Proyectos({
                 <h1>{element.cliente_nombre}</h1>
                 <label>Etiqueta</label>
                 <h1>{element.etiqueta_nombre}</h1>
+                <label>Fecha Entrega</label>
+                <h1>{`${date.getDate()}/${
+                  date.getMonth() + 1
+                }/${date.getFullYear()}`}</h1>
               </div>
             </div>
           );

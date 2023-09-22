@@ -18,8 +18,6 @@ function Etiquetas({ etiquetas, setEtiquetas, nivel }) {
 
   const navigateTo = useNavigate();
 
-  console.log(etiquetas);
-
   const {
     register,
     handleSubmit,

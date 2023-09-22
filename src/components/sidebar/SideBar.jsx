@@ -62,6 +62,15 @@ function SideBar({ nivel }) {
       </div>
 
       <div
+        className="incidencias tooltip"
+        onClick={() => {
+          navigateTo("/incidencias");
+        }}
+      >
+        <span className="tooltip-box">Incidencias</span>
+      </div>
+
+      <div
         className="logout tooltip"
         onClick={() => {
           logout();
