@@ -26,7 +26,7 @@ import {
   editProyecto,
 } from "./proyectosService";
 
-import { getIncidencias } from "./incidenciasService";
+import { getIncidencias, createIncidencia } from "./incidenciasService";
 
 const isBearerTokenRequired = (url) => {
   const parsedUrl = new URL(url);
@@ -94,4 +94,5 @@ export {
   deleteProyecto,
   editProyecto,
   getIncidencias,
+  createIncidencia,
 };

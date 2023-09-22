@@ -18,6 +18,7 @@ import useProyectos from "./hooks/useProyectos";
 import ProyectoDetalle from "./pages/ProyectoDetalle";
 import { getProyectosByIdProyecto } from "./services";
 import useIncidencias from "./hooks/useIncidencias";
+import Incidencias from "./pages/Incidencias";
 
 function App() {
   const { setToken, setUser, token } = useContext(AuthContext);
@@ -97,6 +98,12 @@ function App() {
                 etiquetas={etiquetas}
                 incidencias={incidencias}
               />
+            }
+          />
+          <Route
+            path="/incidencias"
+            element={
+              <Incidencias incidencias={incidencias} proyectos={proyectos} />
             }
           />
         </Routes>

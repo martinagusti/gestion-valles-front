@@ -255,7 +255,9 @@ function Clientes({ clientes, setClientes, nivel }) {
 
   return (
     <div className="clientes-container">
-      <button onClick={() => createNewCliente()}>Insertar Cliente</button>
+      {nivel !== "empleado" && (
+        <button onClick={() => createNewCliente()}>Insertar Cliente</button>
+      )}
 
       {viewInsertCliente && (
         <div className="empleado-create-modal-container">
