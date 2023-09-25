@@ -19,6 +19,7 @@ import ProyectoDetalle from "./pages/ProyectoDetalle";
 import { getProyectosByIdProyecto } from "./services";
 import useIncidencias from "./hooks/useIncidencias";
 import Incidencias from "./pages/Incidencias";
+import useTareas from "./hooks/useTareas";
 
 function App() {
   const { setToken, setUser, token } = useContext(AuthContext);
@@ -28,6 +29,7 @@ function App() {
   const { etiquetas, setEtiquetas } = useEtiquetas();
   const { proyectos, setProyectos } = useProyectos();
   const { incidencias, setIncidencias } = useIncidencias();
+  const { tareas, setTareas } = useTareas();
 
   const [idProyecto, setIdProyecto] = useState();
   const [empleadosAsignados, setEmpleadosAsignados] = useState();
@@ -53,6 +55,7 @@ function App() {
                 clientes={clientes}
                 setClientes={setClientes}
                 nivel={nivel}
+                proyectos={proyectos}
               />
             }
           />
@@ -88,6 +91,7 @@ function App() {
             path="/proyectoDetalle"
             element={
               <ProyectoDetalle
+                tareas={tareas}
                 proyectos={proyectos}
                 setProyectos={setProyectos}
                 nivel={nivel}

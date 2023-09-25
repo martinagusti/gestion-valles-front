@@ -25,6 +25,7 @@ function ProyectoDetalle({
   nivel,
   etiquetas,
   incidencias,
+  tareas,
 }) {
   const { setToken, setUser, token } = useContext(AuthContext);
   const [errorText, setErrorText] = useState();
@@ -34,11 +35,15 @@ function ProyectoDetalle({
 
   const navigateTo = useNavigate();
 
-  incidencias = incidencias.filter((element) => {
+  tareas = tareas.filter((element) => {
     return element.id_proyecto == idProyecto;
   });
 
-  console.log(incidencias);
+  console.log(tareas);
+
+  incidencias = incidencias.filter((element) => {
+    return element.id_proyecto == idProyecto;
+  });
 
   proyectos = proyectos.filter((element) => {
     return element.id === idProyecto;
@@ -61,6 +66,7 @@ function ProyectoDetalle({
   );
 
   const [etiqueta, setEtiqueta] = useState(proyectos[0]?.etiqueta_nombre);
+  const [estado, setEstado] = useState(proyectos[0]?.estado);
   const [idEdit, setIdEdit] = useState(proyectos[0]?.id);
 
   const {
@@ -150,6 +156,7 @@ function ProyectoDetalle({
         event.target.comentarios.value,
         event.target.fecha_entrega.value,
         event.target.etiqueta.value,
+        event.target.estado.value,
         idEdit
       );
 
@@ -180,6 +187,10 @@ function ProyectoDetalle({
     setEtiqueta(e.target.value);
   };
 
+  const handleOnChangeEstado = (e) => {
+    setEstado(e.target.value);
+  };
+
   return (
     <div className="proyectoDetalle-container">
       {proyectos.map((element, index) => {
@@ -192,6 +203,7 @@ function ProyectoDetalle({
             <h2>{element.cliente_nombre}</h2>
             <h2>{element.etiqueta_nombre}</h2>
             <h2>{element.comentarios}</h2>
+            <h2>{element.estado}</h2>
             <h2>{`${fechaInicio.getDate()}/${
               fechaInicio.getMonth() + 1
             }/${fechaInicio.getFullYear()}`}</h2>
@@ -363,6 +375,17 @@ function ProyectoDetalle({
                     </option>
                   );
                 })}
+              </select>
+
+              <label>Estado</label>
+              <select
+                name="estado"
+                id="estado"
+                onChange={handleOnChangeEstado}
+                defaultValue={estado}
+              >
+                <option value="en curso">EN CURSO</option>
+                <option value="finalizado">FINALIZADO</option>
               </select>
 
               <div className="modal-actions">

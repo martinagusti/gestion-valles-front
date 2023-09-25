@@ -84,6 +84,7 @@ export const editProyecto = async (
   comentarios,
   fecha_entrega,
   etiqueta,
+  estado,
   id
 ) => {
   const proyecto = await axios.patch(
@@ -93,6 +94,7 @@ export const editProyecto = async (
       comentarios: comentarios,
       fecha_entrega: fecha_entrega,
       id_etiqueta: etiqueta,
+      estado: estado,
     }
   );
 

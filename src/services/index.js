@@ -28,6 +28,8 @@ import {
 
 import { getIncidencias, createIncidencia } from "./incidenciasService";
 
+import { getTareas } from "./tareasService";
+
 const isBearerTokenRequired = (url) => {
   const parsedUrl = new URL(url);
   const publicRoutes = ["/users/login", "/users"];
@@ -95,4 +97,5 @@ export {
   editProyecto,
   getIncidencias,
   createIncidencia,
+  getTareas,
 };

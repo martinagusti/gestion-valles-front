@@ -13,6 +13,7 @@ import {
   getProyectosById,
   getProyectosByIdProyecto,
 } from "../services";
+import { getClientes } from "../services/clientesService";
 
 function Proyectos({
   proyectos,
@@ -31,6 +32,7 @@ function Proyectos({
 
   const [desde, setDesde] = useState();
   const [hasta, setHasta] = useState();
+  const [search, setSearch] = useState("");
 
   const navigateTo = useNavigate();
 
@@ -45,6 +47,21 @@ function Proyectos({
       const data = await getProyectosById(event.target.value);
       console.log(data);
       setProyectos(data);
+    } else {
+      const data = await getProyectos();
+      setProyectos(data);
+    }
+  };
+
+  const getProyectosByEstado = async (event) => {
+    console.log(event.target.value);
+    if (event.target.value !== "") {
+      const data = await getProyectos();
+      setProyectos(
+        data.filter((element) => {
+          return element.estado == event.target.value;
+        })
+      );
     } else {
       const data = await getProyectos();
       setProyectos(data);
@@ -70,20 +87,21 @@ function Proyectos({
     }
   };
 
-  const filterClientes = async (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
+  console.log(proyectos);
 
-    if (e.target.value == "") {
-      const data = await getProyectos();
-      setProyectos(data);
-    } else {
-      const data = await getProyectos();
-      const filtered = data.filter((element) => {
-        return element.cliente_nombre === e.target.value;
-      });
-      console.log(filtered);
+  const filterClientes = async () => {
+    console.log(search);
+
+    const allProyectos = await getProyectos();
+    const filtered = allProyectos.filter((element) => {
+      return element.cliente_nombre
+        .toLowerCase()
+        .includes(search.toLowerCase());
+    });
+    if (search !== "") {
       setProyectos(filtered);
+    } else {
+      setProyectos(allProyectos);
     }
   };
 
@@ -170,6 +188,10 @@ function Proyectos({
     setHasta(e.target.value);
   };
 
+  const handeOnChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <div className="proyectos-container">
       {nivel !== "empleado" && (
@@ -201,20 +223,16 @@ function Proyectos({
               Busqueda por fecha
             </button>
             <label>Cliente</label>
-            <select
+            <input
+              type="text"
               name="cliente"
               id="cliente"
-              onChange={(event) => filterClientes(event)}
-            >
-              <option value={""}>TODOS</option>
-              {clientes.map((element, index) => {
-                return (
-                  <option key={index} value={element.nombre}>
-                    {element.nombre}
-                  </option>
-                );
-              })}
-            </select>
+              onChange={handeOnChangeSearch}
+            ></input>
+            <button type="button" onClick={() => filterClientes()}>
+              Buscar
+            </button>
+
             <label>Empleado</label>
             <select
               name="empleados"
@@ -229,6 +247,17 @@ function Proyectos({
                   </option>
                 );
               })}
+            </select>
+
+            <label>Estado</label>
+            <select
+              name="estado"
+              id="estado"
+              onChange={(event) => getProyectosByEstado(event)}
+            >
+              <option value={""}>TODOS</option>
+              <option value={"en curso"}>EN CURSO</option>
+              <option value={"finalizado"}>FINALIZADO</option>
             </select>
 
             <label>Etiqueta</label>

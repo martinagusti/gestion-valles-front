@@ -9,7 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 import { createCliente, deleteCliente, editCliente } from "../services";
 import { getClientes } from "../services/clientesService";
 
-function Clientes({ clientes, setClientes, nivel }) {
+function Clientes({ clientes, setClientes, nivel, proyectos }) {
   const { setToken, setUser, token } = useContext(AuthContext);
   const [errorText, setErrorText] = useState();
 
@@ -36,6 +36,8 @@ function Clientes({ clientes, setClientes, nivel }) {
   const [anotaciones_hosting, setAnotaciones_hosting] = useState(null);
   const [anotaciones_cliente, setAnotaciones_cliente] = useState(null);
 
+  const [search, setSearch] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -43,7 +45,28 @@ function Clientes({ clientes, setClientes, nivel }) {
     reset,
   } = useForm();
 
-  console.log(clientes);
+  if (nivel == "empleado") {
+    const clientesPermitidos = [];
+    for (let i = 0; i < proyectos.length; i++) {
+      clientesPermitidos.push(proyectos[i].id_cliente);
+    }
+
+    clientes = clientes.filter((element) => {
+      if (clientesPermitidos.includes(element.id)) {
+        return element.id;
+      }
+    });
+  }
+
+  clientes = clientes.sort(function (a, b) {
+    if (a.nombre.toLowerCase() < b.nombre.toLowerCase()) {
+      return -1;
+    }
+    if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
 
   const navigateTo = useNavigate();
 
@@ -253,11 +276,34 @@ function Clientes({ clientes, setClientes, nivel }) {
     setAnotaciones_cliente(e.target.value);
   };
 
+  const handleOnChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const searchByName = async () => {
+    const allClientes = await getClientes();
+    const filtered = allClientes.filter((element) => {
+      return element.nombre.toLowerCase().includes(search.toLowerCase());
+    });
+    if (search !== "") {
+      setClientes(filtered);
+    } else {
+      setClientes(allClientes);
+    }
+  };
+
   return (
     <div className="clientes-container">
       {nivel !== "empleado" && (
         <button onClick={() => createNewCliente()}>Insertar Cliente</button>
       )}
+
+      <input
+        type="text"
+        defaultValue={search}
+        onChange={handleOnChangeSearch}
+      ></input>
+      <button onClick={() => searchByName()}>Buscar</button>
 
       {viewInsertCliente && (
         <div className="empleado-create-modal-container">
